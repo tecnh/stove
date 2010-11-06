@@ -1,0 +1,66 @@
+= Introduction
+
+Stove is a tool to help Chef users, especially those who may be running many different instances of Chef or who are supporting a wide number of Chef users. It makes it easy for new users to setup their Chef environments, and for Head Chefs switch between multiple organizations. It also allows for easy storage of defaults on a per org per user basis.
+
+= Features
+
+- uses databags to get aws keys
+- allows you to easily switch between orgs
+- tools for creating amis [ssh in afterwards and clears out the crap]
+- installs .chef in your home folder automatically
+- pulls down .pem key (with correct password?)
+- warns which org you are in
+- defaults (region, az, etc.)
+- deploy & undeploy commands
+- create vpc & rds instances?
+
+= Syntax
+
+stove deploy <instance>
+	- deploys an instance on cloud vendor VENDOR (default:AMZ) using image image_id (default:UBUNTU) of type size (default:m1.small) in AZ az or region region (based on if present) with roles ROLES
+	
+stove undeploy <instance>
+	- remove the instance from clients, node & vendor
+	
+stove list [nodes|clients|instances|all]
+  - list what's where (opscode/vendor)
+
+stove organization <org_name>
+	- set org name in knife.rb
+	
+stove set [az|region|image_id|type|distro|user|roles|vendor|server|chef_cert|vendor_cert]
+	- sets variety of attributes in .spoon
+	
+stove lock <instance>
+	- locks an instance [AWS only for now]
+	- error if not supported
+
+stove unlock <instance>
+stove search [image] <text>
+stove init <keys|chef|user|databag|environments>
+
+-- stove init keys
+	- pulls down keys .. from where? and puts into correct folder .. where?
+	
+-- stove init chef
+	- setups local chef folder with cookbooks & certs
+	
+-- stove init user <user_id> [password] [server_url]
+	- setup local folders (if necessary) and download pem
+	- gives error if already present unless --force is provided, in which case old folder is backed up using datecode and new one created
+
+-- stove init databag <vendor> <keys>
+
+-- stove init environments [--no-prod] [--no-stage] [--no-dev]
+	- creates databag structures & roles for various environments
+
+=	LICENSE
+
+Stove - A deployment tool for users of Chef
+
+Author:	Mat Ellis (<mat@tecnh.com>)
+Copyright:	Copyright © 2010 Tecnh, Inc.
+License:	Apache License, Version 2.0
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
